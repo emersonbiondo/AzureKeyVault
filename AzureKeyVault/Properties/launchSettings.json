@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "AzureKeyVault": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT_DEVELOPMENT": "Development"
+      }
+    }
+  }
+}
