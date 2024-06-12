@@ -3,8 +3,11 @@ using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
 using AzureKeyVault.Context;
 using AzureKeyVault.Models;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
+using System.Data;
 
 var environmentName = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT_DEVELOPMENT");
 
@@ -85,9 +88,41 @@ if (connections != null)
             {
                 Console.WriteLine(sample.ToString());
             }
+            Console.WriteLine(string.Empty);
+        }
+    }
+
+    if (!string.IsNullOrEmpty(connections.TestSelect))
+    {
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            connection.Open();
+            Console.WriteLine($"Connection Sucess!");
+            Console.WriteLine(connection.State); 
+            Console.WriteLine(string.Empty);
+
+            if (connection.State == ConnectionState.Open)
+            {
+                using (SqlCommand command = new SqlCommand(connections.TestSelect, connection))
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var sqlDataReader = command.ExecuteReader())
+                    {
+                        dataTable.Load(sqlDataReader);
+                    }
+
+                    foreach (DataRow dataRow in dataTable.Rows)
+                    {
+                        foreach (var item in dataRow.ItemArray)
+                        {
+                            Console.WriteLine(item);
+                        }
+                    }
+                    Console.WriteLine(string.Empty);
+                }
+            }
         }
     }
 }
 
-Console.WriteLine(string.Empty);
 Console.WriteLine($"Done.");

@@ -15,6 +15,7 @@
         public string TenantId { get; set; }
         public string ClientId { get; set; }
         public bool TestMigration { get; set; }
+        public string TestSelect { get; set; }
 
         public Connections()
         {
@@ -31,6 +32,7 @@
             TenantId = string.Empty;
             ClientId = string.Empty;
             TestMigration = false;
+            TestSelect = string.Empty;
         }
 
         public override string ToString()
@@ -47,7 +49,8 @@
                 $"AzurePassword: {AzurePassword}, " +
                 $"TenantId: {TenantId}, " +
                 $"ClientId: {ClientId}, " +
-                $"TestMigration: {TestMigration}";
+                $"TestMigration: {TestMigration}" +
+                $"TestSelect: {TestSelect}";
         }
     }
 }
